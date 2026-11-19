@@ -28,6 +28,19 @@ export const siteConfig = {
   location: '[Business location]',
 
   /**
+   * OWNER: automatic quote e-mail delivery.
+   *
+   * Paste a Formspree endpoint here (free — sign up at formspree.io, create a
+   * form, copy the URL that looks like `https://formspree.io/f/xxxxxxxx`) and
+   * every generated quote is e-mailed to the customer with no further action.
+   *
+   * While this is empty the site still delivers the quote by WhatsApp and by
+   * opening the customer's mail client — nothing is ever reported as sent
+   * when it was not.
+   */
+  quoteEmailEndpoint: '',
+
+  /**
    * OWNER: add real profile URLs below — entries with an empty `url`
    * are hidden automatically so no dead links ever render.
    */

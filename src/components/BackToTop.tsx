@@ -27,7 +27,7 @@ export function BackToTop() {
             window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
           }
           aria-label="Back to top"
-          className="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-action text-white shadow-[0_16px_40px_-16px_rgb(10_108_224_/_0.9)] transition-colors hover:bg-action-dark"
+          className="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-action text-white shadow-[0_16px_40px_-16px_rgb(10_108_224_/_0.9)] transition-colors hover:bg-action-dark print:hidden"
         >
           <ArrowUp size={18} aria-hidden />
         </motion.button>

@@ -121,12 +121,12 @@ export function Hero() {
             </Reveal>
 
             <Reveal delay={0.3}>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <ButtonLink href="/contact" variant="amber">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <ButtonLink href="/contact" variant="amber" className="w-full sm:w-auto">
                   Get Started
                   <ArrowRight size={16} aria-hidden />
                 </ButtonLink>
-                <ButtonLink href="/services" variant="glass">
+                <ButtonLink href="/services" variant="glass" className="w-full sm:w-auto">
                   Explore Our Services
                 </ButtonLink>
               </div>
@@ -135,8 +135,8 @@ export function Hero() {
 
           {/* Right column — overlapping tilted card cascade */}
           <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="relative h-[440px] sm:h-[540px] lg:h-[640px]">
-              <div className="absolute inset-0 origin-top-left scale-[0.66] sm:scale-80 lg:scale-100">
+            <div className="relative h-[400px] sm:h-[540px] lg:h-[640px]">
+              <div className="absolute inset-0 origin-top-left scale-[0.58] sm:scale-80 lg:scale-100">
               {heroCards.map((card, i) => {
                 const Icon = card.icon;
                 const isActive = activeCard === card.id;

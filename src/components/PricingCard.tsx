@@ -40,7 +40,7 @@ export function PricingCard({ group, index }: PricingCardProps) {
         </ul>
 
         <Link
-          to="/contact"
+          to="/quote"
           className="mt-5 inline-flex min-h-[44px] items-center gap-1.5 self-start text-sm font-semibold text-action transition-colors hover:text-navy"
         >
           Request a quote

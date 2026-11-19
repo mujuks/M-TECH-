@@ -19,15 +19,15 @@ const socialGlyphs: Record<string, string> = {
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-navy text-white">
+    <footer className="relative overflow-hidden bg-navy text-white print:hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_15%_0%,rgb(8_123_250_/_0.35),transparent_45%),radial-gradient(circle_at_85%_100%,rgb(8_123_250_/_0.25),transparent_45%)]"
       />
 
       <div className="container-site relative py-16 sm:py-20">
-        <div className="grid gap-10 border-b border-white/10 pb-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-3">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 border-b border-white/10 pb-12 sm:gap-x-8 lg:grid-cols-12 lg:gap-8">
+          <div className="col-span-2 lg:col-span-3">
             <Logo tone="light" />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-ice/65">
               {siteConfig.tagline}
@@ -80,7 +80,7 @@ export function Footer() {
             </ul>
           </nav>
 
-          <div className="lg:col-span-2">
+          <div className="col-span-2 lg:col-span-2">
             <h3 className="eyebrow text-white">Contact</h3>
             <ul className="mt-5 space-y-3 text-sm">
               {siteConfig.phones.map((phone) => (
@@ -97,7 +97,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-3">
+          <div className="col-span-2 lg:col-span-3">
               <h3 className="eyebrow text-white">Social Media</h3>
               <div className="mt-4 flex flex-wrap gap-2">
                 {siteConfig.socials.map((s) => {

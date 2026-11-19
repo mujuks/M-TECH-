@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { X, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Logo } from './Logo';
 import { navLinks } from '../data/siteConfig';
 
@@ -74,13 +74,15 @@ export function Navbar() {
     }`;
 
   const mobileLinkClass = (isActive: boolean) =>
-    `flex min-h-[44px] items-center justify-between rounded-xl px-4 py-3 text-base font-medium text-white transition-colors hover:bg-white/10 ${
-      isActive ? 'bg-white/15' : ''
+    `relative flex min-h-[48px] items-center justify-between gap-3 rounded-xl px-4 py-3 text-base font-medium transition-colors duration-200 ${
+      isActive
+        ? 'bg-white/10 text-white before:absolute before:left-0 before:top-1/2 before:h-6 before:w-1 before:-translate-y-1/2 before:rounded-full before:bg-amber'
+        : 'text-ice/75 hover:bg-white/5 hover:text-white'
     }`;
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b bg-navy transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b bg-navy transition-all duration-300 print:hidden ${
         open
           ? 'border-white/10'
           : scrolled
@@ -107,7 +109,7 @@ export function Navbar() {
 
         <div className="hidden xl:block">
           <Link
-            to="/contact"
+            to="/quote"
             onClick={handleLinkClick}
             className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-action px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-action-dark hover:shadow-[0_18px_44px_-14px_rgb(10_108_224_/_0.9)]"
           >
@@ -123,7 +125,7 @@ export function Navbar() {
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? 'Close menu' : 'Open menu'}
-          className="relative z-50 flex h-11 w-11 items-center justify-center rounded-xl border border-white/25 bg-white/10 text-white backdrop-blur transition-all duration-300 hover:border-white/50 xl:hidden"
+          className="relative z-50 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/25 bg-white/10 text-white backdrop-blur transition-all duration-300 hover:border-white/50 hover:bg-white/15 active:scale-95 xl:hidden"
         >
           <span className="relative block h-5 w-5">
             <motion.span
@@ -155,9 +157,10 @@ export function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="glass overflow-hidden border-t border-white/10 xl:hidden"
+            className="max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-white/10 bg-navy/95 backdrop-blur-xl xl:hidden"
           >
             <nav aria-label="Mobile" className="container-site flex flex-col gap-1 py-5">
+              <p className="eyebrow px-4 pb-2 text-electric-soft">Menu</p>
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.label}
@@ -181,25 +184,17 @@ export function Navbar() {
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.05 + navLinks.length * 0.04, duration: 0.3 }}
+                className="mt-4 border-t border-white/10 pt-4"
               >
                 <Link
-                  to="/contact"
+                  to="/quote"
                   onClick={handleLinkClick}
-                  className="mt-3 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-action px-6 py-3.5 text-sm font-semibold text-white"
+                  className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-action px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-action-dark active:scale-[0.98]"
                 >
                   Get a Quote
                   <ArrowRight size={16} aria-hidden />
                 </Link>
               </motion.div>
-
-              <button
-                type="button"
-                onClick={close}
-                className="mt-2 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-sm font-semibold text-white"
-              >
-                <X size={16} aria-hidden />
-                Close menu
-              </button>
             </nav>
           </motion.div>
         )}

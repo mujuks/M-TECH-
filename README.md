@@ -26,6 +26,7 @@ photography and insurance.
 | `/portfolio` | Portfolio — filterable project grid | Portfolio |
 | `/pricing` | Pricing catalogue | Pricing |
 | `/contact` | Contact — info card + WhatsApp form | Contact Us |
+| `/quote` | Instant quote generator | — |
 | `*` | 404 — "This page took a wrong turn" | — |
 
 Each route sets its own `document.title` and resets scroll position on
@@ -127,6 +128,38 @@ class in the **Service required** dropdown. The preset travels as router state
 once the nonce changes — so a normal visit to `/contact` never applies a stale
 preset.
 
+### Automatic quotes (`/quote`)
+
+Every **Get a Quote** / **Request a quote** button points at `/quote`. The form
+asks for the customer's name, e-mail, WhatsApp number and service, then:
+
+1. **Item picker.** Choosing a service reveals its price lines from
+   `src/data/pricing.ts` (or the class fee from `src/data/classes.ts`) as
+   checkboxes. The customer ticks exactly what they want — a quote with no
+   items ticked cannot be submitted. Nothing is hard-coded in the component.
+2. **Generates a PDF quote** containing only the ticked items, plus the
+   reference `MT-YYMMDD-XXXX`, the 14-day validity window, budget and brief.
+   jsPDF is imported lazily, so it ships in its own chunk and never blocks the
+   first paint.
+3. **Delivers the PDF.** On submit the file is handed to the operating system's
+   share sheet (`navigator.share` with the PDF attached), where the customer
+   picks WhatsApp, e-mail, Drive, etc. Browsers without file sharing fall back
+   to an automatic download of `M-TECH-Quote-<ref>.pdf`.
+4. **E-mails a copy** with the PDF attached when `siteConfig.quoteEmailEndpoint`
+   is set. While it is empty the page says so honestly and never claims a
+   message was sent.
+5. **Send PDF / Download PDF / New quote** buttons repeat either action; the
+   on-screen preview (`QuoteDocument`) mirrors the same selection.
+
+**To switch on true automatic e-mail** (no clicks required): sign up at
+[formspree.io](https://formspree.io), create a form, and paste the
+`https://formspree.io/f/xxxxxxxx` URL into `quoteEmailEndpoint` in
+`src/data/siteConfig.ts`. The PDF is then POSTed as a multipart attachment
+automatically on submit.
+
+Quote reference numbers are generated as `MT-YYMMDD-XXXX` and quotes are valid
+for 14 days.
+
 ## Accessibility & motion
 
 - Skip-to-content link, semantic landmarks, visible focus states
@@ -146,7 +179,10 @@ src/
                 Pricing, Why, Process, Contact (composition blocks, reused
                 by pages)
   pages/        HomePage, AboutPage, ServicesPage, ClassesPage,
-                PortfolioPage, PricingPage, ContactPage, NotFoundPage
+                PortfolioPage, PricingPage, ContactPage, QuotePage,
+                NotFoundPage
+  lib/          quote.ts — quote generation, PDF rendering, share/download
+                and e-mail delivery
   App.tsx       BrowserRouter, route table, shared layout
 ```
 
@@ -159,8 +195,11 @@ src/
 3. **Email address** — `[Email address]` in `siteConfig.ts`
 4. **Business location** — `[Business location]` in `siteConfig.ts`
 5. **Social media URLs** — Facebook, Instagram, X, YouTube in `siteConfig.ts`
-6. **Real portfolio work** — replace the six demo entries in `portfolio.ts`
+6. **Quote e-mail endpoint** — `quoteEmailEndpoint` in `siteConfig.ts` to enable
+   hands-off e-mail delivery (optional; share sheet + PDF download work without
+   it)
+7. **Real portfolio work** — replace the six demo entries in `portfolio.ts`
    (screenshots can go in `public/projects/`)
-7. **Logo / poster asset** — the site uses a generated diamond wordmark and the
+8. **Logo / poster asset** — the site uses a generated diamond wordmark and the
    favicon in `public/favicon.svg`; drop in the official logo when available
-8. **Phone country code** — confirm `+254` is correct for both numbers
+9. **Phone country code** — confirm `+254` is correct for both numbers

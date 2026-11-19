@@ -33,7 +33,7 @@ export function Pricing() {
             Need something different? Tell us about your project and we will prepare a
             custom quote.
           </p>
-          <ButtonLink href="/contact" variant="amber" className="shrink-0">
+          <ButtonLink href="/quote" variant="amber" className="shrink-0">
             Get a Quote
             <ArrowRight size={16} aria-hidden />
           </ButtonLink>
