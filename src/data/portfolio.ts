@@ -1,100 +1,100 @@
-export type PortfolioCategory =
-  | 'Website Development'
-  | 'Graphic Design'
-  | 'Branding'
-  | 'Business Promotions'
-  | 'Custom Digital Solutions';
+import {
+  Globe,
+  ShoppingBag,
+  FileText,
+  Sparkles,
+  Megaphone,
+  Boxes,
+  type LucideIcon,
+} from 'lucide-react';
+import type { MockVariant } from '../components/ProjectMockup';
 
-export type Project = {
-  id: string;
-  title: string;
-  category: PortfolioCategory;
-  description: string;
-  /** Visual accent used by the generated preview artwork. */
-  accent: 'blue' | 'navy' | 'cyan' | 'indigo' | 'sky';
-  /** Layout variant for the generated preview artwork. */
-  layout: 'browser' | 'app' | 'poster' | 'brand' | 'social';
-};
-
-export const portfolioCategories: PortfolioCategory[] = [
+export const portfolioCategories = [
+  'All',
   'Website Development',
   'Graphic Design',
   'Branding',
   'Business Promotions',
   'Custom Digital Solutions',
-];
+] as const;
 
-export const projects: Project[] = [
+export type PortfolioCategory = (typeof portfolioCategories)[number];
+
+export type PortfolioItem = {
+  id: string;
+  title: string;
+  category: Exclude<PortfolioCategory, 'All'>;
+  description: string;
+  icon: LucideIcon;
+  /** CSS mockup used as the project preview (see ProjectMockup). */
+  mock: MockVariant;
+  /** OWNER: drop in a real screenshot path (e.g. "/projects/my-site.png"). */
+  image?: string;
+  /** OWNER: add a live URL once the project is public. */
+  link?: string;
+};
+
+/**
+ * DEMONSTRATION projects only — clearly labelled as demos.
+ * Replace with real work through this file (title, category, description, image, link).
+ * Note shown on the site: "Demonstration project. Real portfolio work will replace this."
+ */
+export const portfolioItems: PortfolioItem[] = [
   {
-    id: 'nova-retail',
-    title: 'Nova Retail Store',
+    id: 'business-website-concept',
+    title: 'Business website concept',
     category: 'Website Development',
     description:
-      'A clean, conversion-focused online store concept with product collections, search and a streamlined checkout flow.',
-    accent: 'blue',
-    layout: 'browser',
+      'A clean, conversion-focused business website concept with clear service sections and calls to action.',
+    icon: Globe,
+    mock: 'browser',
   },
   {
-    id: 'lumen-coffee',
-    title: 'Lumen Coffee Co.',
+    id: 'online-store-concept',
+    title: 'Online store concept',
     category: 'Website Development',
     description:
-      'A warm, modern business website concept for a specialty coffee brand, built mobile-first with fast load times.',
-    accent: 'navy',
-    layout: 'browser',
+      'An e-commerce concept covering product catalogue, cart and streamlined checkout flow.',
+    icon: ShoppingBag,
+    mock: 'store',
   },
   {
-    id: 'horizon-properties',
-    title: 'Horizon Properties',
-    category: 'Website Development',
-    description:
-      'A high-impact landing page concept designed to capture enquiries for a growing property business.',
-    accent: 'sky',
-    layout: 'browser',
-  },
-  {
-    id: 'vertex-identity',
-    title: 'Vertex Studio Identity',
-    category: 'Branding',
-    description:
-      'A complete brand identity concept covering logo exploration, colour palette, typography and usage guidelines.',
-    accent: 'indigo',
-    layout: 'brand',
-  },
-  {
-    id: 'bloom-toolkit',
-    title: 'Bloom Cosmetics Toolkit',
-    category: 'Branding',
-    description:
-      'A cohesive branding toolkit concept spanning packaging labels, stationery and digital brand assets.',
-    accent: 'blue',
-    layout: 'brand',
-  },
-  {
-    id: 'orbit-posters',
-    title: 'Orbit Logistics Posters',
+    id: 'poster-flyer-set',
+    title: 'Poster and flyer set',
     category: 'Graphic Design',
     description:
-      'A series of bold promotional poster layouts concept designed for print and digital campaigns.',
-    accent: 'navy',
-    layout: 'poster',
+      'A coordinated poster and flyer concept set built for print and digital promotion.',
+    icon: FileText,
+    mock: 'poster',
   },
   {
-    id: 'pulse-campaign',
-    title: 'Pulse Fitness Campaign',
+    id: 'brand-identity-concept',
+    title: 'Brand identity concept',
+    category: 'Branding',
+    description:
+      'A full brand identity concept — logo, colour direction and core brand elements.',
+    icon: Sparkles,
+    mock: 'brand',
+  },
+  {
+    id: 'social-campaign-concept',
+    title: 'Social media campaign concept',
     category: 'Business Promotions',
     description:
-      'A social media campaign concept with a consistent visual system for posts, stories and paid advertisements.',
-    accent: 'cyan',
-    layout: 'social',
+      'A social media campaign concept with a consistent visual system across post formats.',
+    icon: Megaphone,
+    mock: 'social',
   },
   {
-    id: 'atlas-dashboard',
-    title: 'Atlas Operations Dashboard',
+    id: 'management-system-concept',
+    title: 'Business management system concept',
     category: 'Custom Digital Solutions',
     description:
-      'A custom web application concept that centralises reporting, task tracking and team workflows.',
-    accent: 'indigo',
-    layout: 'app',
+      'A custom business management system concept for streamlining day-to-day operations.',
+    icon: Boxes,
+    mock: 'dashboard',
   },
 ];
+
+export const portfolioDemoNote =
+  'Demonstration project. Real portfolio work will replace this.';

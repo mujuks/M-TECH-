@@ -1,24 +1,32 @@
 @import 'tailwindcss';
 
 @theme {
+  /* Brand palette */
   --color-electric: #087bfa;
-  --color-electric-dark: #0563cc;
   --color-electric-soft: #3d97ff;
+  --color-action: #0a6ce0;
+  --color-action-dark: #0857b8;
   --color-navy: #06152e;
-  --color-navy-soft: #0b2144;
+  --color-mid: #0b2a55;
+  --color-hero: #0a56b5;
   --color-ice: #eaf4ff;
   --color-ink: #101828;
   --color-muted: #64748b;
+  --color-amber: #f5a623;
+  --color-amber-dark: #a35f00;
+  --color-line: #1b3358;
+  --color-line-light: #d3e0f2;
 
   --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
 
   --shadow-card: 0 1px 2px rgb(6 21 46 / 0.04), 0 8px 24px -8px rgb(6 21 46 / 0.1);
   --shadow-card-hover: 0 2px 4px rgb(6 21 46 / 0.05), 0 20px 48px -16px rgb(8 123 250 / 0.28);
-  --shadow-glow: 0 0 0 1px rgb(8 123 250 / 0.25), 0 12px 40px -12px rgb(8 123 250 / 0.45);
+  --shadow-glow: 0 0 0 1px rgb(8 123 250 / 0.35), 0 12px 40px -12px rgb(8 123 250 / 0.45);
+  --shadow-float: 0 24px 60px -24px rgb(6 21 46 / 0.45);
 
   --animate-float: float 7s ease-in-out infinite;
-  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-marquee: marquee 38s linear infinite;
   --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
 
   @keyframes float {
@@ -27,7 +35,16 @@
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-16px);
+      transform: translateY(-14px);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
     }
   }
 
@@ -46,7 +63,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -57,8 +74,7 @@
   h1,
   h2,
   h3,
-  h4,
-  h5 {
+  h4 {
     @apply font-display;
   }
 
@@ -81,25 +97,33 @@
   }
 
   .glass {
-    background: rgb(255 255 255 / 0.72);
+    background: rgb(6 21 46 / 0.72);
     backdrop-filter: blur(18px) saturate(160%);
   }
 
-  .glass-dark {
-    background: rgb(6 21 46 / 0.65);
-    backdrop-filter: blur(18px) saturate(160%);
+  .glass-light {
+    background: rgb(255 255 255 / 0.78);
+    backdrop-filter: blur(16px) saturate(160%);
   }
 
   .glow-border {
-    box-shadow: inset 0 0 0 1px rgb(8 123 250 / 0.22), 0 18px 50px -24px rgb(8 123 250 / 0.55);
+    box-shadow: inset 0 0 0 1px rgb(8 123 250 / 0.3), 0 18px 50px -24px rgb(8 123 250 / 0.55);
   }
 
-  .grid-bg {
-    background-image:
-      linear-gradient(to right, rgb(8 123 250 / 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(8 123 250 / 0.06) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%);
+  .eyebrow {
+    @apply font-body text-[11px] font-bold uppercase tracking-[0.24em];
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .heading-fluid {
+    font-size: clamp(1.75rem, 1.1rem + 2.6vw, 3rem);
+  }
+
+  .hero-fluid {
+    font-size: clamp(2.25rem, 1.2rem + 5vw, 4.25rem);
   }
 }
 

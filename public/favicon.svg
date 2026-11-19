@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="14" fill="#06152E"/>
-  <circle cx="52" cy="12" r="5" fill="#087BFA"/>
-  <text x="32" y="42" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, sans-serif" font-size="30" font-weight="800" fill="#FFFFFF">M</text>
-  <rect x="14" y="48" width="36" height="4" rx="2" fill="#087BFA"/>
+  <rect x="22" y="14" width="20" height="20" rx="4" transform="rotate(45 32 24)" fill="#087BFA"/>
+  <text x="32" y="54" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, sans-serif" font-size="18" font-weight="800" fill="#FFFFFF">M</text>
 </svg>

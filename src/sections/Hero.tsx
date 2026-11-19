@@ -1,294 +1,241 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Play, Sparkles, ShieldCheck, Zap } from 'lucide-react';
+import { Code2, Palette, Boxes, Star, Check, ArrowRight } from 'lucide-react';
 import { ButtonLink } from '../components/Button';
 import { Reveal } from '../components/Reveal';
 
-const floatChips = [
-  { icon: Zap, label: 'Fast & Responsive', className: 'right-2 top-10 sm:right-6' },
-  { icon: ShieldCheck, label: 'Reliable Delivery', className: 'left-0 bottom-24 sm:left-2' },
-  { icon: Sparkles, label: 'Modern UI/UX', className: 'right-6 bottom-6 sm:right-10' },
+type HeroCard = {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: typeof Code2;
+  /** Base tilt in degrees. */
+  rotate: number;
+  /** Base offset from the stack origin. */
+  x: number;
+  y: number;
+  z: number;
+};
+
+const heroCards: HeroCard[] = [
+  {
+    id: 'website-development',
+    title: 'Website Development',
+    subtitle: 'Modern, responsive and professional websites.',
+    icon: Code2,
+    rotate: -8,
+    x: 0,
+    y: 320,
+    z: 1,
+  },
+  {
+    id: 'graphic-design',
+    title: 'Graphic Design',
+    subtitle: 'Creative designs that make your brand stand out.',
+    icon: Palette,
+    rotate: 5,
+    x: 100,
+    y: 160,
+    z: 2,
+  },
+  {
+    id: 'digital-solutions',
+    title: 'Digital Solutions',
+    subtitle: 'Innovative technology for business growth.',
+    icon: Boxes,
+    rotate: -3,
+    x: 200,
+    y: 0,
+    z: 3,
+  },
 ];
 
 export function Hero() {
   const reduce = useReducedMotion();
+  const [activeCard, setActiveCard] = useState<string | null>(null);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-ice via-white to-white pt-28 sm:pt-32">
-      <div aria-hidden className="grid-bg absolute inset-0" />
-      <span
+    <section
+      id="home"
+      className="relative overflow-hidden bg-[linear-gradient(135deg,#0B2A55_0%,#0A56B5_55%,#087BFA_120%)] pt-28 pb-20 sm:pt-32 lg:pb-28"
+    >
+      {/* Soft top light + depth */}
+      <div
         aria-hidden
-        className="absolute -left-32 top-24 h-[420px] w-[420px] rounded-full bg-electric/12 blur-3xl"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-15%,rgb(255_255_255_/_0.24),transparent_70%)]"
       />
-      <span
+      <div
         aria-hidden
-        className="absolute -right-24 top-40 h-[380px] w-[380px] rounded-full bg-electric/10 blur-3xl"
-      />
-      <span
-        aria-hidden
-        className="absolute bottom-0 left-1/2 h-40 w-[70%] -translate-x-1/2 rounded-full bg-navy/5 blur-3xl"
+        className="absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(to_top,rgb(6_21_46_/_0.35),transparent)]"
       />
 
-      <div className="container-site relative pb-20 sm:pb-24 lg:pb-28">
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-10">
-          <div className="max-w-xl">
+      {/* Soft radial glows */}
+      <div
+        aria-hidden
+        className="absolute -left-32 top-10 h-96 w-96 rounded-full bg-electric/30 blur-[120px]"
+      />
+      <div
+        aria-hidden
+        className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-hero/50 blur-[100px]"
+      />
+
+      {/* Decorative circles */}
+      <div
+        aria-hidden
+        className="absolute -right-40 top-1/4 h-96 w-96 rounded-full border border-white/10"
+      />
+      <div
+        aria-hidden
+        className="absolute -right-20 top-1/3 h-64 w-64 rounded-full border border-white/10"
+      />
+      <div
+        aria-hidden
+        className="absolute left-1/4 -top-24 h-56 w-56 rounded-full border border-white/10"
+      />
+
+      <div className="container-site relative">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-8">
+          {/* Left column */}
+          <div>
             <Reveal>
-              <span className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-electric shadow-sm backdrop-blur">
-                <span className="h-1.5 w-1.5 rounded-full bg-electric" />
-                Build • Design • Grow
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md sm:text-sm">
+                <Star size={14} className="fill-amber text-amber" aria-hidden />
+                M-TECH <span aria-hidden className="text-white/50">|</span> Your Digital
+                Solutions Partner
               </span>
             </Reveal>
 
-            <Reveal delay={0.08}>
-              <h1 className="mt-6 text-balance font-display text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-navy sm:text-6xl">
-                Build Your Digital Future{' '}
-                <span className="relative inline-block text-electric">
-                  with M-TECH
-                  <svg
-                    aria-hidden
-                    viewBox="0 0 300 12"
-                    preserveAspectRatio="none"
-                    className="absolute -bottom-2 left-0 h-2.5 w-full text-electric/35"
-                  >
-                    <path
-                      d="M3 9C60 3 150 2 297 7"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>
+            <Reveal delay={0.1}>
+              <h1 className="hero-fluid mt-6 font-display font-extrabold uppercase leading-[1.02] tracking-[-0.02em] text-white">
+                Build. Design. <span className="text-amber">Grow.</span>
               </h1>
             </Reveal>
 
-            <Reveal delay={0.16}>
-              <p className="mt-6 text-base leading-relaxed text-muted sm:text-lg">
-                We transform ideas into powerful digital experiences through innovative website
-                development, creative graphic design, and professional branding solutions.
+            <Reveal delay={0.2}>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-ice/80 sm:text-lg">
+                We help businesses and individuals establish a powerful digital presence
+                through creative designs, professional websites and innovative digital
+                solutions.
               </p>
             </Reveal>
 
-            <Reveal delay={0.24}>
-              <div className="mt-9 flex flex-wrap gap-3.5">
-                <ButtonLink to="/#services" variant="primary">
-                  Explore Our Services
+            <Reveal delay={0.3}>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <ButtonLink href="/contact" variant="amber">
+                  Get Started
                   <ArrowRight size={16} aria-hidden />
                 </ButtonLink>
-                <ButtonLink to="/contact" variant="ghost">
-                  Start Your Project
-                  <Play size={15} aria-hidden />
+                <ButtonLink href="/services" variant="glass">
+                  Explore Our Services
                 </ButtonLink>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.32}>
-              <div className="mt-9 flex items-center gap-3 border-t border-navy/8 pt-6">
-                <span className="flex -space-x-2" aria-hidden>
-                  {['#087BFA', '#06152E', '#3D97FF'].map((color) => (
-                    <span
-                      key={color}
-                      className="h-8 w-8 rounded-full border-2 border-white"
-                      style={{ background: color }}
-                    />
-                  ))}
-                </span>
-                <p className="text-sm font-medium text-navy/70">
-                  Creative Solutions.{' '}
-                  <span className="font-semibold text-navy">Professional Results.</span>
-                </p>
               </div>
             </Reveal>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[640px] lg:max-w-none">
+          {/* Right column — overlapping tilted card cascade */}
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="relative h-[440px] sm:h-[540px] lg:h-[640px]">
+              <div className="absolute inset-0 origin-top-left scale-[0.66] sm:scale-80 lg:scale-100">
+              {heroCards.map((card, i) => {
+                const Icon = card.icon;
+                const isActive = activeCard === card.id;
+                return (
+                  <motion.div
+                    key={card.id}
+                    initial={reduce ? false : { opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      ease: [0.22, 1, 0.36, 1],
+                      delay: reduce ? 0 : 0.35 + card.z * 0.12,
+                    }}
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      width: 'min(100%, 340px)',
+                      zIndex: isActive ? 30 : card.z,
+                    }}
+                  >
+                    {/* Floating animation wrapper */}
+                    <motion.div
+                      animate={reduce || isActive ? { y: 0 } : { y: [0, -10, 0] }}
+                      transition={
+                        reduce || isActive
+                          ? { duration: 0.2 }
+                          : { duration: 5 + i * 0.8, repeat: Infinity, ease: 'easeInOut' }
+                      }
+                    >
+                    <div
+                      role="group"
+                      aria-label={card.title}
+                      tabIndex={0}
+                      onMouseEnter={() => setActiveCard(card.id)}
+                      onMouseLeave={() => setActiveCard(null)}
+                      onFocus={() => setActiveCard(card.id)}
+                      onBlur={() => setActiveCard(null)}
+                      onClick={() =>
+                        setActiveCard((current) =>
+                          current === card.id ? null : card.id,
+                        )
+                      }
+                      style={{
+                        transform: `translate(${card.x}px, ${card.y}px) rotate(${
+                          isActive ? 0 : card.rotate
+                        }deg) scale(${isActive ? 1.05 : 1})`,
+                        transformOrigin: 'center',
+                      }}
+                      className={`cursor-pointer rounded-[24px] border bg-[linear-gradient(145deg,#0A56B5_0%,#087BFA_120%)] p-6 text-white shadow-float backdrop-blur transition-[transform,box-shadow,border-color] duration-[350ms] ease-out ${
+                        isActive
+                          ? 'border-white/70 shadow-[0_0_0_1px_rgb(255_255_255_/_0.5),0_28px_60px_-20px_rgb(8_123_250_/_0.75)]'
+                          : 'border-white/25'
+                      }`}
+                    >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-white">
+                        <Icon size={24} aria-hidden />
+                      </div>
+                      <span className="rounded-full border border-white/30 bg-white/15 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur">
+                        Service
+                      </span>
+                    </div>
+                    <h2 className="mt-4 font-display text-lg font-extrabold tracking-tight text-white">
+                      {card.title}
+                    </h2>
+                    <p className="mt-1.5 text-sm text-ice/85">{card.subtitle}</p>
+                    <Link
+                      to="/services"
+                      className="mt-4 inline-flex min-h-[38px] items-center gap-1.5 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold text-white transition-colors hover:border-white hover:bg-white/15"
+                    >
+                      Learn more
+                      <ArrowRight size={13} aria-hidden />
+                    </Link>
+                    </div>
+                    </motion.div>
+                  </motion.div>
+                );
+              })}
+              </div>
+            </div>
+
+            {/* Floating notification card */}
             <motion.div
-              initial={reduce ? false : { opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
+              initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: reduce ? 0 : 0.9, duration: 0.5 }}
+              className={`absolute -bottom-2 left-0 z-40 inline-flex items-center gap-2 rounded-full border border-navy/10 bg-white px-4 py-3 text-xs font-semibold text-navy shadow-float sm:text-sm ${
+                reduce ? '' : 'animate-float'
+              }`}
             >
-              <span
-                aria-hidden
-                className="absolute inset-x-8 bottom-4 top-10 rounded-[2.5rem] bg-electric/25 blur-3xl"
-              />
-
-              <LaptopMock />
-
-              <motion.div
-                className="absolute -bottom-6 right-0 w-[27%] max-w-[150px] sm:-right-4 lg:-right-6"
-                animate={reduce ? undefined : { y: [0, -12, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <PhoneMock />
-              </motion.div>
-
-              {floatChips.map(({ icon: Icon, label, className }, i) => (
-                <motion.div
-                  key={label}
-                  initial={reduce ? false : { opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.6 + i * 0.12, duration: 0.5 }}
-                  className={`absolute z-10 hidden items-center gap-2 rounded-2xl border border-white/70 bg-white/85 px-3.5 py-2.5 text-xs font-semibold text-navy shadow-[0_18px_40px_-18px_rgb(6_21_46_/_0.4)] backdrop-blur sm:flex ${className}`}
-                >
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-electric/12 text-electric">
-                    <Icon size={14} aria-hidden />
-                  </span>
-                  {label}
-                </motion.div>
-              ))}
-
-              <motion.span
-                aria-hidden
-                className="absolute left-4 top-6 h-3 w-3 rounded-full bg-electric"
-                animate={reduce ? undefined : { opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 2.4, repeat: Infinity }}
-              />
-              <motion.span
-                aria-hidden
-                className="absolute right-12 top-2 h-2 w-2 rounded-full bg-navy/40"
-                animate={reduce ? undefined : { opacity: [1, 0.3, 1] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              />
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-electric text-white">
+                <Check size={13} aria-hidden strokeWidth={3} />
+              </span>
+              Creative Solutions. Professional Results.
             </motion.div>
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function LaptopMock() {
-  return (
-    <div className="relative z-[1] mx-auto w-[88%] sm:w-[92%]">
-      <div className="rounded-t-2xl border-[6px] border-b-0 border-navy bg-navy p-2 shadow-[0_40px_80px_-40px_rgb(6_21_46_/_0.65)]">
-        <div className="overflow-hidden rounded-lg bg-white">
-          <div className="flex items-center gap-1.5 border-b border-navy/8 bg-slate-50 px-3 py-2">
-            <span className="h-2 w-2 rounded-full bg-red-400" />
-            <span className="h-2 w-2 rounded-full bg-amber-400" />
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <span className="ml-2 flex h-2.5 flex-1 items-center rounded-full bg-white px-2 text-[6px] font-medium text-muted shadow-sm">
-              m-tech.co
-            </span>
-          </div>
-
-          <div className="bg-white px-4 pb-5 pt-4 sm:px-6 sm:pb-7 sm:pt-5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                <span className="flex h-5 w-5 items-center justify-center rounded-md bg-navy text-[7px] font-extrabold text-white">
-                  M
-                </span>
-                <span className="font-display text-[9px] font-extrabold text-navy sm:text-[10px]">
-                  M-TECH
-                </span>
-              </div>
-              <div className="hidden gap-3 sm:flex" aria-hidden>
-                {['Home', 'Services', 'Work', 'Contact'].map((t) => (
-                  <span key={t} className="h-1.5 w-8 rounded-full bg-navy/10" />
-                ))}
-              </div>
-              <span className="h-5 w-14 rounded-full bg-electric" />
-            </div>
-
-            <div className="mt-5 grid grid-cols-2 items-center gap-4 sm:mt-7 sm:gap-6">
-              <div className="space-y-2">
-                <span className="block h-2 w-16 rounded-full bg-electric/25" />
-                <span className="block h-3.5 w-full rounded bg-navy/85" />
-                <span className="block h-3.5 w-4/5 rounded bg-navy/85" />
-                <span className="block h-1.5 w-full rounded-full bg-navy/10" />
-                <span className="block h-1.5 w-3/4 rounded-full bg-navy/10" />
-                <div className="flex gap-2 pt-1.5">
-                  <span className="h-5 w-20 rounded-full bg-electric" />
-                  <span className="h-5 w-16 rounded-full border border-navy/15" />
-                </div>
-              </div>
-
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-gradient-to-br from-navy to-navy-soft p-3 shadow-lg">
-                <span className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-electric/50 blur-md" />
-                <div className="relative flex h-full flex-col justify-end gap-1.5">
-                  <span className="h-1.5 w-8 rounded-full bg-electric" />
-                  <span className="h-2.5 w-3/4 rounded bg-white/90" />
-                  <span className="h-2.5 w-1/2 rounded bg-white/60" />
-                  <div className="mt-1 flex gap-1.5">
-                    <span className="h-4 w-4 rounded-md bg-white/25" />
-                    <span className="h-4 w-4 rounded-md bg-white/25" />
-                    <span className="h-4 w-4 rounded-md bg-electric/80" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 grid grid-cols-3 gap-2.5 sm:mt-7">
-              {['from-electric/12', 'from-navy/8', 'from-electric/10'].map((bg, i) => (
-                <div key={i} className={`rounded-lg bg-gradient-to-b ${bg} to-white p-2.5`}>
-                  <span className="mb-1.5 block h-4 w-4 rounded-md bg-electric/70" />
-                  <span className="mb-1 block h-1.5 w-3/4 rounded-full bg-navy/25" />
-                  <span className="block h-1.5 w-1/2 rounded-full bg-navy/12" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="relative mx-auto h-4 w-[112%] -translate-x-[5.3%] rounded-b-xl bg-gradient-to-b from-slate-300 to-slate-400 shadow-[0_18px_36px_-18px_rgb(6_21_46_/_0.5)]">
-        <span className="absolute left-1/2 top-0 h-1.5 w-16 -translate-x-1/2 rounded-b-md bg-slate-500/70" />
-      </div>
-    </div>
-  );
-}
-
-function PhoneMock() {
-  return (
-    <div className="overflow-hidden rounded-[1.4rem] border-[5px] border-navy bg-navy shadow-[0_32px_60px_-28px_rgb(6_21_46_/_0.7)]">
-      <div className="relative aspect-[9/17] w-full overflow-hidden rounded-[1rem] bg-white">
-        <span className="absolute left-1/2 top-1.5 z-10 h-2.5 w-10 -translate-x-1/2 rounded-full bg-navy" />
-        <div className="flex h-full flex-col bg-gradient-to-b from-ice to-white pt-6">
-          <div className="flex items-center justify-between px-3">
-            <div className="flex items-center gap-1">
-              <span className="flex h-4 w-4 items-center justify-center rounded bg-navy text-[6px] font-extrabold text-white">
-                M
-              </span>
-              <span className="font-display text-[7px] font-extrabold text-navy">M-TECH</span>
-            </div>
-            <span className="flex h-3 w-3 flex-col items-center justify-center gap-0.5 rounded bg-navy/85">
-              <span className="h-0.5 w-1.5 bg-white" />
-              <span className="h-0.5 w-1.5 bg-white" />
-            </span>
-          </div>
-
-          <div className="mt-3 space-y-1.5 px-3">
-            <span className="block h-2 w-12 rounded-full bg-electric/30" />
-            <span className="block h-3 w-full rounded bg-navy/85" />
-            <span className="block h-3 w-3/4 rounded bg-navy/85" />
-            <span className="block h-1.5 w-full rounded-full bg-navy/10" />
-            <span className="block h-4 w-20 rounded-full bg-electric" />
-          </div>
-
-          <div className="mt-3 grid grid-cols-2 gap-1.5 px-3">
-            <span className="aspect-square rounded-lg bg-white shadow-sm" />
-            <span className="aspect-square rounded-lg bg-gradient-to-br from-navy to-navy-soft shadow-sm" />
-          </div>
-
-          <div className="mt-2 space-y-1.5 px-3">
-            <span className="block h-2 w-16 rounded-full bg-navy/25" />
-            <span className="block h-1.5 w-full rounded-full bg-navy/10" />
-            <span className="block h-1.5 w-5/6 rounded-full bg-navy/10" />
-          </div>
-
-          <div className="mt-auto border-t border-navy/8 bg-white px-3 py-2">
-            <div className="flex justify-between">
-              {['M', 'S', 'W', 'C'].map((t) => (
-                <span
-                  key={t}
-                  className="flex h-4 w-4 items-center justify-center rounded-md bg-electric/12 text-[6px] font-bold text-electric"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }

@@ -1,80 +1,91 @@
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import type { ReactNode } from 'react';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'light';
+export type ButtonVariant = 'amber' | 'blue' | 'glass' | 'light';
 
-type ButtonLinkProps = {
-  to: string;
+type CommonProps = {
   children: ReactNode;
-  variant?: Variant;
+  variant?: ButtonVariant;
   className?: string;
-  onClick?: () => void;
+  full?: boolean;
 };
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold tracking-wide transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric';
+  'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold tracking-wide transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 min-h-[44px]';
 
-const variants: Record<Variant, string> = {
-  primary:
-    'bg-electric text-white shadow-[0_14px_36px_-14px_rgb(8_123_250_/_0.85)] hover:bg-electric-dark hover:shadow-[0_18px_44px_-14px_rgb(8_123_250_/_0.95)] hover:-translate-y-0.5',
-  secondary:
-    'bg-navy text-white hover:bg-navy-soft hover:-translate-y-0.5 shadow-[0_14px_36px_-16px_rgb(6_21_46_/_0.7)]',
-  ghost:
-    'border border-navy/15 bg-white/70 text-navy backdrop-blur-sm hover:border-electric/50 hover:text-electric hover:-translate-y-0.5',
+const variants: Record<ButtonVariant, string> = {
+  amber:
+    'bg-amber text-navy shadow-[0_14px_36px_-14px_rgb(245_166_35_/_0.85)] hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-14px_rgb(245_166_35_/_0.95)]',
+  blue: 'bg-action text-white shadow-[0_14px_36px_-14px_rgb(10_108_224_/_0.85)] hover:-translate-y-0.5 hover:bg-action-dark',
+  glass:
+    'border border-white/35 bg-white/10 text-white backdrop-blur-md hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20',
   light:
-    'bg-white text-navy hover:bg-ice hover:-translate-y-0.5 shadow-[0_14px_36px_-16px_rgb(0_0_0_/_0.4)]',
+    'bg-white text-navy shadow-[0_14px_36px_-16px_rgb(0_0_0_/_0.4)] hover:-translate-y-0.5 hover:bg-ice',
 };
 
-export function ButtonLink({ to, children, variant = 'primary', className = '', onClick }: ButtonLinkProps) {
-  const classes = `${base} ${variants[variant]} ${className}`;
-  const external = to.startsWith('http') || to.startsWith('tel:') || to.startsWith('mailto:');
+type ButtonProps = CommonProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & { href?: undefined };
 
-  if (external) {
-    return (
-      <a
-        href={to}
-        className={classes}
-        onClick={onClick}
-        target={to.startsWith('http') ? '_blank' : undefined}
-        rel={to.startsWith('http') ? 'noopener noreferrer' : undefined}
-      >
-        {children}
-      </a>
-    );
-  }
-
-  return (
-    <Link to={to} className={classes} onClick={onClick}>
-      {children}
-    </Link>
-  );
-}
-
-type ButtonProps = {
-  children: ReactNode;
-  type?: 'button' | 'submit';
-  variant?: Variant;
-  className?: string;
-  disabled?: boolean;
+type LinkProps = CommonProps & {
+  /** Internal route (`/contact`) or external URL (`https://…`). */
+  href: string;
+  /** Router state passed through to internal links (e.g. enroll preset). */
+  state?: unknown;
+  target?: string;
+  rel?: string;
   onClick?: () => void;
+  'aria-label'?: string;
 };
 
 export function Button({
   children,
-  type = 'button',
-  variant = 'primary',
+  variant = 'blue',
   className = '',
-  disabled = false,
-  onClick,
+  full = false,
+  ...rest
 }: ButtonProps) {
   return (
     <button
-      type={type}
-      disabled={disabled}
-      onClick={onClick}
-      className={`${base} ${variants[variant]} ${className} disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0`}
+      type="button"
+      {...rest}
+      className={`${base} ${variants[variant]} ${full ? 'w-full' : ''} ${className}`}
     >
       {children}
     </button>
+  );
+}
+
+export function ButtonLink({
+  children,
+  variant = 'blue',
+  className = '',
+  full = false,
+  href,
+  state,
+  target,
+  rel,
+  ...rest
+}: LinkProps) {
+  const external = href.startsWith('http');
+  const classes = `${base} ${variants[variant]} ${full ? 'w-full' : ''} ${className}`;
+
+  if (!external) {
+    return (
+      <Link to={href} state={state} {...rest} className={classes}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target={target ?? '_blank'}
+      rel={rel ?? 'noopener noreferrer'}
+      {...rest}
+      className={classes}
+    >
+      {children}
+    </a>
   );
 }

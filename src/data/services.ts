@@ -26,7 +26,7 @@ export const services: Service[] = [
       'E-commerce Websites',
       'Portfolio Websites',
       'Landing Pages',
-      'Custom Website Development',
+      'Custom Development',
       'Website Redesign',
       'Website Maintenance',
     ],
@@ -39,7 +39,7 @@ export const services: Service[] = [
       'We create visually compelling designs that communicate your brand identity and make your business stand out.',
     items: [
       'Logo Design',
-      'Brand Identity Design',
+      'Brand Identity',
       'Business Cards',
       'Flyers and Posters',
       'Brochures',
@@ -58,7 +58,7 @@ export const services: Service[] = [
       'Promotional Posters',
       'Digital Advertisements',
       'Business Promotions',
-      'Marketing Campaign Designs',
+      'Campaign Designs',
       'Social Media Branding',
     ],
     icon: Megaphone,
@@ -69,10 +69,10 @@ export const services: Service[] = [
     description:
       'We develop tailored digital solutions that simplify business processes and improve productivity.',
     items: [
-      'Custom Web Applications',
+      'Custom Web Apps',
       'Business Management Systems',
       'Web-Based Platforms',
-      'Database-Driven Applications',
+      'Database-Driven Apps',
       'API Integrations',
       'Custom Digital Tools',
     ],
@@ -93,3 +93,15 @@ export const services: Service[] = [
     icon: Smartphone,
   },
 ];
+
+/** Slow scrolling "what we deliver" tags. */
+export const deliverTags = [
+  'Website Development',
+  'Graphic Design',
+  'Branding',
+  'Digital Solutions',
+  'Business Websites',
+  'E-commerce',
+  'Social Media Designs',
+  'Posters & Flyers',
+] as const;
