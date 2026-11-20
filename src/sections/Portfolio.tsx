@@ -36,7 +36,7 @@ export function Portfolio() {
           <div
             role="group"
             aria-label="Filter projects by category"
-            className="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-1.5 rounded-full border border-navy/10 bg-ice p-1.5 sm:gap-2"
+            className="no-scrollbar mx-auto mt-10 flex max-w-4xl gap-1.5 overflow-x-auto rounded-full border border-navy/10 bg-ice p-1.5 sm:flex-wrap sm:justify-center sm:gap-2 sm:overflow-x-visible"
           >
             {portfolioCategories.map((category) => {
               const isActive = active === category;
@@ -46,7 +46,7 @@ export function Portfolio() {
                   type="button"
                   aria-pressed={isActive}
                   onClick={() => setActive(category)}
-                  className={`min-h-[40px] rounded-full px-4 py-2 text-xs font-semibold transition-all duration-300 sm:text-sm ${
+                  className={`min-h-[40px] shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition-all duration-300 sm:text-sm ${
                     isActive
                       ? 'bg-action text-white shadow-[0_10px_24px_-12px_rgb(10_108_224_/_0.9)]'
                       : 'text-navy/70 hover:bg-white hover:text-navy'

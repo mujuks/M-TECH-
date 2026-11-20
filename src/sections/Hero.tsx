@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Code2, Palette, Boxes, Star, Check, ArrowRight } from 'lucide-react';
@@ -16,6 +16,8 @@ type HeroCard = {
   x: number;
   y: number;
   z: number;
+  /** Narrow-screen x offset — keeps the cascade inside small viewports. */
+  mx: number;
 };
 
 const heroCards: HeroCard[] = [
@@ -28,6 +30,7 @@ const heroCards: HeroCard[] = [
     x: 0,
     y: 320,
     z: 1,
+    mx: 0,
   },
   {
     id: 'graphic-design',
@@ -38,6 +41,7 @@ const heroCards: HeroCard[] = [
     x: 100,
     y: 160,
     z: 2,
+    mx: 55,
   },
   {
     id: 'digital-solutions',
@@ -48,12 +52,26 @@ const heroCards: HeroCard[] = [
     x: 200,
     y: 0,
     z: 3,
+    mx: 110,
   },
 ];
 
 export function Hero() {
   const reduce = useReducedMotion();
   const [activeCard, setActiveCard] = useState<string | null>(null);
+  // Below sm the cascade runs at a larger scale (readable text), so the
+  // horizontal offsets must shrink to keep every card on screen.
+  const [isNarrow, setIsNarrow] = useState(
+    () => window.matchMedia('(max-width: 639px)').matches,
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)');
+    const onChange = () => setIsNarrow(mq.matches);
+    onChange();
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
 
   return (
     <section
@@ -135,11 +153,12 @@ export function Hero() {
 
           {/* Right column — overlapping tilted card cascade */}
           <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="relative h-[400px] sm:h-[540px] lg:h-[640px]">
-              <div className="absolute inset-0 origin-top-left scale-[0.58] sm:scale-80 lg:scale-100">
+            <div className="relative h-[460px] sm:h-[540px] lg:h-[640px]">
+              <div className="absolute inset-0 origin-top-left scale-[0.74] sm:scale-80 lg:scale-100">
               {heroCards.map((card, i) => {
                 const Icon = card.icon;
                 const isActive = activeCard === card.id;
+                const offsetX = isNarrow ? card.mx : card.x;
                 return (
                   <motion.div
                     key={card.id}
@@ -181,7 +200,7 @@ export function Hero() {
                         )
                       }
                       style={{
-                        transform: `translate(${card.x}px, ${card.y}px) rotate(${
+                        transform: `translate(${offsetX}px, ${card.y}px) rotate(${
                           isActive ? 0 : card.rotate
                         }deg) scale(${isActive ? 1.05 : 1})`,
                         transformOrigin: 'center',

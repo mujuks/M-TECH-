@@ -39,12 +39,14 @@ export function ClassCard({ course, index, onEnroll }: ClassCardProps) {
           <div className="relative flex h-full items-center justify-center">
             <Icon size={56} className="text-white/90" aria-hidden strokeWidth={1.5} />
           </div>
-          <span className="absolute left-4 top-4 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur">
-            {course.category}
-          </span>
-          <span className="absolute right-4 top-4 rounded-full bg-amber px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-navy">
-            Class
-          </span>
+          <div className="absolute left-4 right-4 top-4 flex flex-wrap items-start gap-2">
+            <span className="whitespace-nowrap rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur">
+              {course.category}
+            </span>
+            <span className="ml-auto whitespace-nowrap rounded-full bg-amber px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-navy">
+              Class
+            </span>
+          </div>
         </div>
 
         <div className="flex flex-1 flex-col p-6">
