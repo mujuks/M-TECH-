@@ -1,9 +1,12 @@
 import { Target, Eye } from 'lucide-react';
+import { useReducedMotion } from 'framer-motion';
 import { mission, vision, values, aboutIntro } from '../data/values';
 import { SectionHeading } from '../components/SectionHeading';
 import { Reveal } from '../components/Reveal';
 
 export function About() {
+  const reduce = useReducedMotion();
+
   return (
     <section id="about" className="bg-ice py-20 sm:py-24">
       <div className="container-site">
@@ -53,9 +56,24 @@ export function About() {
             </Reveal>
           </div>
 
-          {/* Navy visual panel — pure CSS/SVG */}
+          {/* Navy visual panel — video background with brand message overlay */}
           <Reveal delay={0.15} className="h-full">
             <div className="relative flex h-full min-h-[420px] items-center justify-center overflow-hidden rounded-[28px] bg-[linear-gradient(150deg,#06152E_0%,#0B2A55_45%,#0A56B5_100%)] p-8">
+              <video
+                className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                src="/projects/HERO%20VIDEO.mp4"
+                autoPlay={!reduce}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-hidden
+              />
+              {/* Navy/blue tint keeps text readable and the palette cohesive */}
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-[linear-gradient(150deg,rgb(6_21_46_/_0.82)_0%,rgb(11_42_85_/_0.68)_45%,rgb(10_86_181_/_0.55)_100%)]"
+              />
               {/* Glowing blue radial lighting */}
               <div
                 aria-hidden

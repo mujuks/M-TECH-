@@ -1,14 +1,16 @@
 import { Clock, CalendarDays, Monitor, Tag } from 'lucide-react';
 import type { ClassCourse } from '../data/classes';
-import { ButtonLink } from './Button';
+import { Button } from './Button';
 import { Reveal } from './Reveal';
 
 type ClassCardProps = {
   course: ClassCourse;
   index: number;
+  /** Opens the units + prices dialog instead of navigating away. */
+  onEnroll: (course: ClassCourse) => void;
 };
 
-export function ClassCard({ course, index }: ClassCardProps) {
+export function ClassCard({ course, index, onEnroll }: ClassCardProps) {
   const Icon = course.icon;
 
   const details = [
@@ -72,15 +74,14 @@ export function ClassCard({ course, index }: ClassCardProps) {
               </span>
             </div>
 
-            <ButtonLink
-              href="/contact"
-              state={{ presetService: course.serviceValue, presetNonce: Date.now() }}
+            <Button
+              type="button"
+              onClick={() => onEnroll(course)}
               variant="blue"
-              full
-              className="mt-4"
+              className="mt-4 w-full justify-center"
             >
               Enroll now
-            </ButtonLink>
+            </Button>
           </div>
         </div>
       </article>

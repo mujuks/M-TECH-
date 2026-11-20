@@ -10,6 +10,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/pricing': 'Pricing | M-TECH',
   '/contact': 'Contact Us | M-TECH',
   '/quote': 'Get a Quote | M-TECH',
+  '/payment': 'Payment | M-TECH',
 };
 
 /**

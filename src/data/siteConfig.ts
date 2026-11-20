@@ -41,6 +41,23 @@ export const siteConfig = {
   quoteEmailEndpoint: '',
 
   /**
+   * OWNER: class / unit payments.
+   *
+   * `mpesaPaybill` or `mpesaTill` — leave empty to hide M-Pesa details until
+   * ready. `paystackUrl` — optional hosted checkout link for card payments.
+   * Until a real gateway is connected the payment page shows instructions and
+   * a WhatsApp confirmation with the payment reference (never claims a
+   * payment succeeded when it did not).
+   */
+  payments: {
+    mpesaPaybill: '',
+    mpesaTill: '',
+    /** Account / invoice number prefix used in M-Pesa references. */
+    mpesaAccount: 'MTECH',
+    paystackUrl: '',
+  } as const,
+
+  /**
    * OWNER: add real profile URLs below — entries with an empty `url`
    * are hidden automatically so no dead links ever render.
    */

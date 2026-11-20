@@ -7,6 +7,7 @@ import {
   FileText,
   Loader2,
   Mail,
+  MessageCircle,
   RefreshCw,
   Share2,
   Sparkles,
@@ -14,16 +15,14 @@ import {
 import { SectionHeading } from '../components/SectionHeading';
 import { QuoteDocument } from '../components/QuoteDocument';
 import { Reveal } from '../components/Reveal';
-import { serviceOptions, siteConfig } from '../data/siteConfig';
+import { serviceOptions } from '../data/siteConfig';
 import {
   buildQuote,
   deliverQuotePdf,
   downloadQuotePdf,
   getQuoteHeading,
   getQuoteLines,
-  sendQuoteEmail,
   type DeliveryResult,
-  type EmailResult,
   type Quote,
 } from '../lib/quote';
 
@@ -66,7 +65,6 @@ export function QuotePage() {
   const [selected, setSelected] = useState<string[]>([]);
   const [quote, setQuote] = useState<Quote | null>(null);
   const [delivery, setDelivery] = useState<DeliveryState>('idle');
-  const [emailState, setEmailState] = useState<EmailResult | 'sending' | null>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
 
   // Warm the PDF library so the share sheet opens within the user gesture.
@@ -97,22 +95,12 @@ export function QuotePage() {
     setErrors((e) => ({ ...e, service: undefined }));
   };
 
+  /** Hands the PDF file to the share sheet (WhatsApp, e-mail, Drive, …). */
   const deliver = (target: Quote) => {
     setDelivery('delivering');
     deliverQuotePdf(target)
       .then((result) => setDelivery(result))
       .catch(() => setDelivery('downloaded'));
-  };
-
-  const sendEmail = (target: Quote) => {
-    if (!siteConfig.quoteEmailEndpoint) {
-      setEmailState('unconfigured');
-      return;
-    }
-    setEmailState('sending');
-    sendQuoteEmail(target)
-      .then((result) => setEmailState(result))
-      .catch(() => setEmailState('failed'));
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -126,8 +114,8 @@ export function QuotePage() {
 
     const generated = buildQuote(values, selected);
     setQuote(generated);
+    // Deliver the PDF file straight to the share sheet.
     deliver(generated);
-    sendEmail(generated);
   };
 
   const reset = () => {
@@ -136,7 +124,6 @@ export function QuotePage() {
     setSelected([]);
     setErrors({});
     setDelivery('idle');
-    setEmailState(null);
   };
 
   const errorList = (Object.keys(errors) as FieldName[]).filter((k) => errors[k]);
@@ -390,53 +377,37 @@ export function QuotePage() {
                     <CheckCircle2 size={17} aria-hidden />
                   )}
                 </span>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="font-display text-sm font-extrabold text-navy">
                     Quote {quote.ref} — {quote.lines.length} item
-                    {quote.lines.length === 1 ? '' : 's'} selected
+                    {quote.lines.length === 1 ? '' : 's'} selected · PDF ready
                   </p>
 
                   <p className="mt-1 text-sm leading-relaxed text-muted">
                     {delivery === 'delivering' && 'Preparing your PDF…'}
                     {delivery === 'shared' &&
-                      'Your PDF was handed to the share sheet — choose WhatsApp or e-mail to send it to yourself.'}
+                      'Your PDF was handed to the share sheet — pick WhatsApp (your number) or e-mail (your address) to send the file.'}
                     {delivery === 'downloaded' &&
-                      `Saved as M-TECH-Quote-${quote.ref}.pdf — attach it in WhatsApp or e-mail to send it on.`}
+                      `Saved as M-TECH-Quote-${quote.ref}.pdf — attach this file in WhatsApp or e-mail to your contacts.`}
                     {delivery === 'dismissed' &&
-                      'Sharing was cancelled. Your PDF is still ready below.'}
-                    {delivery === 'idle' && 'Your PDF quote is ready.'}
+                      'Sharing was cancelled. Your PDF is still ready below — use “Send PDF” to try again.'}
+                    {delivery === 'idle' && 'Your PDF quote is ready to send.'}
                   </p>
 
-                  {/* E-mail status */}
-                  <div className="mt-3 text-sm">
-                    {emailState === 'sending' && (
-                      <p className="flex items-center gap-2 text-muted">
-                        <Loader2 size={15} className="animate-spin" aria-hidden />
-                        E-mailing your PDF…
-                      </p>
-                    )}
-                    {emailState === 'sent' && (
-                      <p className="flex items-center gap-2 text-emerald-700">
-                        <CheckCircle2 size={15} aria-hidden />
-                        The PDF has been e-mailed to {quote.client.email}.
-                      </p>
-                    )}
-                    {emailState === 'failed' && (
-                      <p className="flex items-center gap-2 text-red-700">
-                        <AlertCircle size={15} aria-hidden />
-                        Automatic e-mail failed — use “Send PDF” or “Download PDF” instead.
-                      </p>
-                    )}
-                    {emailState === 'unconfigured' && (
-                      <p className="flex items-start gap-2 text-muted">
-                        <Mail size={15} className="mt-0.5 shrink-0" aria-hidden />
-                        <span>
-                          Automatic e-mail isn’t connected yet — “Send PDF” opens your share
-                          sheet where you can pick e-mail or WhatsApp.
-                        </span>
-                      </p>
-                    )}
+                  <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-ice px-3 py-1 font-semibold text-navy">
+                      <MessageCircle size={13} aria-hidden />
+                      WhatsApp · {quote.client.phone}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-ice px-3 py-1 font-semibold text-navy">
+                      <Mail size={13} aria-hidden />
+                      {quote.client.email}
+                    </span>
                   </div>
+                  <p className="mt-2 text-xs leading-relaxed text-muted">
+                    The share sheet opens with the <strong>PDF attached</strong> — choose
+                    WhatsApp or e-mail and send it to yourself. No text-only message is used.
+                  </p>
                 </div>
               </div>
             </div>
@@ -450,7 +421,7 @@ export function QuotePage() {
                 className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-emerald-700 disabled:cursor-wait disabled:opacity-60"
               >
                 <Share2 size={16} aria-hidden />
-                Send PDF
+                Send PDF to my WhatsApp / e-mail
               </button>
               <button
                 type="button"

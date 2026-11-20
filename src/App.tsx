@@ -11,6 +11,7 @@ import { PortfolioPage } from './pages/PortfolioPage';
 import { PricingPage } from './pages/PricingPage';
 import { ContactPage } from './pages/ContactPage';
 import { QuotePage } from './pages/QuotePage';
+import { PaymentPage } from './pages/PaymentPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/quote" element={<QuotePage />} />
+            <Route path="/payment" element={<PaymentPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

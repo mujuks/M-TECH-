@@ -1,9 +1,13 @@
-import { classes, classBannerMessage } from '../data/classes';
+import { useState } from 'react';
+import { classes, classBannerMessage, type ClassCourse } from '../data/classes';
 import { SectionHeading } from '../components/SectionHeading';
 import { ClassCard } from '../components/ClassCard';
+import { ClassEnrollModal } from '../components/ClassEnrollModal';
 import { WhatsAppButton } from '../components/WhatsAppButton';
 
 export function Classes() {
+  const [enrolling, setEnrolling] = useState<ClassCourse | null>(null);
+
   return (
     <section id="classes" className="relative overflow-hidden bg-navy py-20 sm:py-24">
       <div
@@ -22,7 +26,12 @@ export function Classes() {
 
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {classes.map((course, i) => (
-            <ClassCard key={course.id} course={course} index={i} />
+            <ClassCard
+              key={course.id}
+              course={course}
+              index={i}
+              onEnroll={setEnrolling}
+            />
           ))}
         </div>
 
@@ -38,6 +47,8 @@ export function Classes() {
           />
         </div>
       </div>
+
+      <ClassEnrollModal course={enrolling} onClose={() => setEnrolling(null)} />
     </section>
   );
 }
